@@ -126,9 +126,9 @@ export const manageOrder=async(req,res)=>
 {
     const{id,op}=req.body
     console.log(id,op)
-  const data= await cartModel.findById(id)
+  const data= await cartModel.findById(id).populate('itemid','name image price')
 
-  console.log(data)
+  console.log("daattatatta",data)
     try
     {
         if(op=='+')
@@ -151,7 +151,7 @@ export const manageOrder=async(req,res)=>
             await cartModel.findByIdAndDelete(id);
         }
         const count=Number(data.count)-1
-        const price=Number(data.itemid.price)-Number(data.price)
+        const price=Number(data.price)-Number(data.itemid.price)
         const updateCount=await cartModel.findOneAndUpdate(
             {_id:id},
             {$set:{count:count,price,price}}
