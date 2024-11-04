@@ -75,14 +75,15 @@ export const  getPerfumeData=async(req,res)=>
 }
 export const addProduct=async(req,res)=>
 {
-    const{userid,itemid,count}=req.body
-   // const data= await perfumeModel.find({_id:itemid})
+    const{userid,itemid,count,price}=req.body
+    console.log(price)
     try
     {
         await cartModel.create({    
             userid,
             itemid,
-            count
+            count,
+            price
         })
         res.status(200).json({message:"Data inserted"})
     }catch(error)
@@ -133,10 +134,11 @@ export const manageOrder=async(req,res)=>
         if(op=='+')
         {
           const count=Number(data.count)+1
+          const price=Number(data.itemid.price)+Number(data.price)
         //  const amount=(data.amount)*count
         const updateCount=await cartModel.findOneAndUpdate(
             {_id:id},
-            {$set:{count:count}}
+            {$set:{count:count,price,price}}
         )
         res.status(200).json({message:"Success"})
     }
@@ -149,9 +151,10 @@ export const manageOrder=async(req,res)=>
             await cartModel.findByIdAndDelete(id);
         }
         const count=Number(data.count)-1
+        const price=Number(data.itemid.price)-Number(data.price)
         const updateCount=await cartModel.findOneAndUpdate(
             {_id:id},
-            {$set:{count:count}}
+            {$set:{count:count,price,price}}
         )
         res.status(200).json({message:"Success"})
     }

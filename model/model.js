@@ -17,7 +17,7 @@ export const perfumeModel=mongoose.model('perfumes',perfumeSchema)
 const cartSchema=new mongoose.Schema({
     userid:{type:mongoose.Schema.ObjectId,ref:'users'},
     itemid:{type:mongoose.Schema.ObjectId,ref:'perfumes'},
-    amount:{type:String},
+    price:{type:String},
     count:{type:String}
 })
 export const cartModel=mongoose.model('cart',cartSchema)
