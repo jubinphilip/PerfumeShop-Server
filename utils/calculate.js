@@ -6,7 +6,8 @@ export default async function calCulateAmount(data,id)
     let pricedetails={
         total:0,
         discount:0,
-        payable:0
+        payable:0,
+        messages:[]
     }
 
   let loyaltyflag=false
@@ -68,6 +69,7 @@ export default async function calCulateAmount(data,id)
               }
               pricedetailspf1.discount=pricedetailspf1.total-pricedetailspf1.payable
               console.log("Discount",pricedetailspf1.discount)
+              pricedetails.messages.push('50% offer applied')
             }
             else
             {
@@ -90,6 +92,7 @@ export default async function calCulateAmount(data,id)
                     const price=75*data[i].count
                     console.log(price)
                     pricedetailspf2.payable=price
+                    pricedetails.messages.push('buy 3 and get 5 off offer applied')
                 }
                 else
                 {
@@ -118,7 +121,9 @@ export default async function calCulateAmount(data,id)
                  pricedetailspf4.discount=data[i].price/100*15
                  pricedetailspf4.payable=pricedetailspf4.total-pricedetailspf4.discount
                  console.log(pricedetailspf4)
+                 pricedetails.messages.push("Special offer for this date applied")
             }
+
             pricedetails.payable=pricedetails.payable+Number(pricedetailspf4.payable)
             pricedetails.discount=pricedetails.discount+pricedetailspf4.discount
         }   
@@ -138,12 +143,14 @@ export default async function calCulateAmount(data,id)
                     const discount=((data[i].itemid.price*data[i].count)/100)*20
                     const price=data[i].price-discount
                     pricedetailspf5.payable=price
+                    pricedetails.messages.push("Offers four buying 4 combos applied")
                 }
                 else
                 {
                     const discount=(data[i].itemid.price*data[i].count)/10
                     const price=data[i].price-discount
                     pricedetailspf5.payable=price
+                    pricedetails.messages.push("Offers four buying 2 combos applied")
                 }
             }
             else
@@ -163,40 +170,49 @@ export default async function calCulateAmount(data,id)
     {
         pricedetails.discount=(pricedetails.total / 100)*10
         pricedetails.payable=pricedetails.total-pricedetails.discount
+        pricedetails.messages.push('you are buying 5 products and offer applied')
     }
     if(data.length==6)
         {
             pricedetails.discount=pricedetails.discount+(pricedetails.total / 100)*15
             pricedetails.payable=pricedetails.total-pricedetails.discount
+            pricedetails.messages.push('you are buying 6 products and offer applied')
         }
     if(pricedetails.total>500)
     {
         pricedetails.discount=pricedetails.discount+(pricedetails.total / 100)*5
         pricedetails.payable=pricedetails.total-pricedetails.discount
         cardWideflag=true
+        pricedetails.messages.push('you are buying  products 500 rupees and offer applied')
     }
     if(sprays.includes('PF1' && 'PF3'))
     {
         pricedetails.discount=pricedetails.discount+10
         pricedetails.payable=pricedetails.total-pricedetails.discount
+        pricedetails.messages.push('Combo offers for perfumes applies')
     }
     if(sprays.includes('PF4' && 'PF6'))
         {
 
             pricedetails.discount=pricedetails.discount+(pricedetails.total / 100)*25
             pricedetails.payable=pricedetails.total-pricedetails.discount
+            pricedetails.messages.push('Combo offers for perfumes  applies')
         }
 
     if(loyaltyflag ==true & cardWideflag==true)
     {
         pricedetails.discount=pricedetails.discount+(pricedetails.total / 100)*2
         pricedetails.payable=pricedetails.total-pricedetails.discount
-    }
+        pricedetails.messages.push(' offers for 5 orders applies')
+    }   
     if(created==joiningdate)
     {
         pricedetails.discount=pricedetails.discount+(pricedetails.total / 100)*20
         pricedetails.payable=pricedetails.total-pricedetails.discount
+        pricedetails.messages.push('Anniversary offers applied')
     }
+
+    console.log(pricedetails.messages)
     return pricedetails
 }
 
