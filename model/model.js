@@ -9,7 +9,9 @@ export const userModel=mongoose.model('users',userSchema)
 const perfumeSchema=new mongoose.Schema({
     name:{type:String},
     image:{type:String},
-    price:{type:String}
+    price:{type:String},
+    code:{type:String},
+    offers:{type:Array}
 })
 export const perfumeModel=mongoose.model('perfumes',perfumeSchema)
 

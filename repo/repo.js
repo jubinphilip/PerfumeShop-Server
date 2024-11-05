@@ -97,7 +97,7 @@ export const  getOrders=async(req,res)=>
     try
     {
         const data=await cartModel.find({userid:id})
-        .populate('itemid','name image price')
+        .populate('itemid','name image price code offers')
 
         const pricedetails=await calCulateAmount(data)
 
@@ -127,8 +127,6 @@ export const manageOrder=async(req,res)=>
     const{id,op}=req.body
     console.log(id,op)
   const data= await cartModel.findById(id).populate('itemid','name image price')
-
-  console.log("daattatatta",data)
     try
     {
         if(op=='+')
