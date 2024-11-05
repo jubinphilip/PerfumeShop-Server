@@ -1,4 +1,5 @@
-import { BookingModel } from "../model/model.js"
+import moment from "moment"
+import { BookingModel, userModel } from "../model/model.js"
 export default async function calCulateAmount(data,id)
 
 {
@@ -8,18 +9,32 @@ export default async function calCulateAmount(data,id)
         payable:0
     }
 
+  let loyaltyflag=false
+  let cardWideflag=false
+
+  let anniversaryflag=false
+
     const length=data.length
     for(let i=0;i<length;i++)
         {
             const bookingdata=await BookingModel.find({userid:id})
-             if(bookingdata.length>5)
+             if(bookingdata.length>=5)
             {
                 console.log(data[i].itemid.price)
                 data[i].itemid.price= data[i].itemid.price-(data[i].itemid.price/100)*5
                 console.log("Price reduced")
                 console.log(data[i].itemid.price)
+                loyaltyflag=true
             } 
         }
+
+    const userinfo=await userModel.findById({_id:id})
+        console.log("createdat",userinfo.createdAt)
+        const created=moment(userinfo.createdAt).format('DD-MM-YY')
+        const date=new Date()
+        const joiningdate=moment(date).format('DD-MM-YY')
+        console.log(created,joiningdate)
+
     let sprays=[]
  
     for(let i=0;i<length;i++)
@@ -136,6 +151,7 @@ export default async function calCulateAmount(data,id)
     {
         pricedetails.discount=pricedetails.discount+(pricedetails.total / 100)*5
         pricedetails.payable=pricedetails.total-pricedetails.discount
+        cardWideflag=true
     }
     if(sprays.includes('PF1' && 'PF3'))
     {
@@ -145,9 +161,20 @@ export default async function calCulateAmount(data,id)
     if(sprays.includes('PF4' && 'PF6'))
         {
 
-            pricedetails.discount=(pricedetails.total / 100)*25
+            pricedetails.discount=pricedetails.discount+(pricedetails.total / 100)*25
             pricedetails.payable=pricedetails.total-pricedetails.discount
         }
+
+    if(loyaltyflag ==true & cardWideflag==true)
+    {
+        pricedetails.discount=pricedetails.discount+(pricedetails.total / 100)*2
+        pricedetails.payable=pricedetails.total-pricedetails.discount
+    }
+    if(created==joiningdate)
+    {
+        pricedetails.discount=pricedetails.discount+(pricedetails.total / 100)*20
+        pricedetails.payable=pricedetails.total-pricedetails.discount
+    }
     return pricedetails
 }
 

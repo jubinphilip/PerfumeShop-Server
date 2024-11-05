@@ -3,7 +3,7 @@ const userSchema=new mongoose.Schema({
     name:{type:String},
     email:{type:String},
     password:{type:String}
-})
+},{timestamps:true})
 export const userModel=mongoose.model('users',userSchema)
 
 const perfumeSchema=new mongoose.Schema({
@@ -23,6 +23,7 @@ const cartSchema=new mongoose.Schema({
     count:{type:String}
 },{timestamps:true})
 export const cartModel=mongoose.model('cart',cartSchema)
+
 
 const BookingSchema=new mongoose.Schema({
     userid:{type:mongoose.Schema.ObjectId,ref:'users'},
