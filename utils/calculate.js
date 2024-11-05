@@ -28,6 +28,9 @@ export default async function calCulateAmount(data,id)
             } 
         }
 
+    const startdate='01-11-2024'
+    const enddate='31-11-2024'
+
     const userinfo=await userModel.findById({_id:id})
         console.log("createdat",userinfo.createdAt)
         const created=moment(userinfo.createdAt).format('DD-MM-YY')
@@ -100,6 +103,25 @@ export default async function calCulateAmount(data,id)
                 pricedetails.payable=pricedetails.payable+Number(pricedetailspf2.payable)
                 pricedetails.discount=pricedetails.discount+pricedetailspf2.discount
         }
+        if(data[i].itemid.code=='PF4')
+        {
+            const pricedetailspf4={
+                total:0,
+                discount:0,
+                payable:0
+            }
+            const date=new Date()
+            const joiningdate=moment(date).format('DD-MM-YY')
+            if(joiningdate>=startdate && joiningdate <=enddate)
+            {
+                 pricedetailspf4.total=data[i].price
+                 pricedetailspf4.discount=data[i].price/100*15
+                 pricedetailspf4.payable=pricedetailspf4.total-pricedetailspf4.discount
+                 console.log(pricedetailspf4)
+            }
+            pricedetails.payable=pricedetails.payable+Number(pricedetailspf4.payable)
+            pricedetails.discount=pricedetails.discount+pricedetailspf4.discount
+        }   
         
         if(data[i].itemid.code=='PF5')
         {
