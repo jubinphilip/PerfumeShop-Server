@@ -23,3 +23,10 @@ const cartSchema=new mongoose.Schema({
     count:{type:String}
 },{timestamps:true})
 export const cartModel=mongoose.model('cart',cartSchema)
+
+const BookingSchema=new mongoose.Schema({
+    userid:{type:mongoose.Schema.ObjectId,ref:'users'},
+    amount:{type:String},
+    perfumes:{type:Array}
+})
+export const BookingModel=mongoose.model('Bookings',BookingSchema)

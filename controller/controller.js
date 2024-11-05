@@ -1,4 +1,4 @@
-import { addUser,loginUser,getPerfumeData,addProduct,getOrders, deleteOrder, manageOrder} from "../repo/repo.js";
+import { addUser,loginUser,getPerfumeData,addProduct,getOrders, deleteOrder, manageOrder,addBooking} from "../repo/repo.js";
 
 export async function adduserController(req,res)
 {
@@ -75,5 +75,16 @@ export async function manageCountController(req,res) {
     {
         console.log(error)
     }
-    
+}
+
+export async function addBookingController(req,res) 
+{
+    try
+    {
+        addBooking(req,res)
+    }
+    catch(error)
+    {
+        console.log(error)
+    }
 }

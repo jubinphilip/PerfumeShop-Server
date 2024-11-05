@@ -1,4 +1,4 @@
-import { userModel,cartModel,perfumeModel } from "../model/model.js";
+import { userModel,cartModel,perfumeModel, BookingModel } from "../model/model.js";
 import { main } from "../model/db.js";
 import { createToken } from "../utils/createtoken.js";
 import bcrypt from 'bcrypt'
@@ -77,6 +77,18 @@ export const addProduct=async(req,res)=>
 {
     const{userid,itemid,count,price}=req.body
     console.log(price)
+    const record=await cartModel.find({userid:userid,itemid:itemid})
+
+    if(record.length>0)
+    {
+        const newcount=record[0].count+1
+        const newPrice=record[0].price+price
+        cartModel.updateOne({_id:record[0]._id},
+          { $set:{ 'count': newcount, 'price': newPrice }}
+        )
+    }
+    else
+    {
     try
     {
         await cartModel.create({    
@@ -90,6 +102,7 @@ export const addProduct=async(req,res)=>
     {
         console.log("Error generated",error)
     }
+}
 }
 export const  getOrders=async(req,res)=>
 {
@@ -160,4 +173,32 @@ export const manageOrder=async(req,res)=>
     {
         console.log(error)
     } 
+}
+
+export const addBooking=async(req,res)=>
+{
+    console.log(req.body)
+    const{user,amount}=req.body
+    const data=await cartModel.find({userid:user})
+    console.log(data)
+    const length=data.length
+    const perfumes=[]
+    for(let i=0;i<length;i++)
+    {
+        perfumes.push(data[i].itemid)
+    }
+    console.log(perfumes)
+    try
+    {
+        BookingModel.create({
+            userid:user,
+            amount:amount,
+            perfumes:perfumes
+        })
+    }catch(error)
+    {
+        console.log(error)
+    }
+
+
 }

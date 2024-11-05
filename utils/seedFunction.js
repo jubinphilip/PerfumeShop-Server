@@ -8,14 +8,14 @@ const data=[
         image:'pf-1.svg',
         price:'40',
         code:'PF1',
-        offers:['Buy ONe get One Free','add ck to getflat 10% off']
+        offers:['Buy ONe get One Free','add ck to getflat 10 off']
     },
     {
         name:'Lataffa',
         image:'sp-2.svg',
         price:'80',
         code:'PF2',
-        offers:['Buy 3 for 75 off']
+        offers:['Buy 3 for 5 off on each']
     },
     {
         name:'CK',
@@ -41,7 +41,7 @@ const data=[
         name:'Chanel No.5',
         image:'sp-6.svg',
         price:'150',
-        code:'PF5',
+        code:'PF6',
         offers:['Add Armani code for getting 25% off']
 
     },
