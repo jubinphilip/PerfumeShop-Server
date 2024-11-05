@@ -1,18 +1,30 @@
-export default function calCulateAmount(data)
+import { BookingModel } from "../model/model.js"
+export default async function calCulateAmount(data,id)
+
 {
     let pricedetails={
         total:0,
         discount:0,
         payable:0
     }
-    const length=data.length
 
+    const length=data.length
+    for(let i=0;i<length;i++)
+        {
+            const bookingdata=await BookingModel.find({userid:id})
+             if(bookingdata.length>5)
+            {
+                console.log(data[i].itemid.price)
+                data[i].itemid.price= data[i].itemid.price-(data[i].itemid.price/100)*5
+                console.log("Price reduced")
+                console.log(data[i].itemid.price)
+            } 
+        }
     let sprays=[]
  
     for(let i=0;i<length;i++)
     {
         sprays[i]=data[i].itemid.code
-        console.log(sprays)
         if(data[i].itemid.code=='PF1')
         {
             const pricedetailspf1={
@@ -55,7 +67,7 @@ export default function calCulateAmount(data)
                 payable:0
             }
             pricedetailspf2.total=(data[i].count*data[i].itemid.price)+pricedetailspf2.total
-            if(data[i].count>3)
+            if(data[i].count>=3)
                 {
                     const price=75*data[i].count
                     console.log(price)
@@ -73,6 +85,7 @@ export default function calCulateAmount(data)
                 pricedetails.payable=pricedetails.payable+Number(pricedetailspf2.payable)
                 pricedetails.discount=pricedetails.discount+pricedetailspf2.discount
         }
+        
         if(data[i].itemid.code=='PF5')
         {
             const pricedetailspf5={
@@ -106,12 +119,6 @@ export default function calCulateAmount(data)
             pricedetails.discount=pricedetails.discount+pricedetailspf5.discount
 
         }
-        if(data[i].itemid.code=='PF6')
-        {
-           // pricedetails.total=pricedetails.total+(data[i].count*data[i].itemid.price)
-            pricedetails.discount=(pricedetails.total / 100)*25
-            pricedetails.payable=pricedetails.total-pricedetails.discount
-        }
         pricedetails.total=pricedetails.total+Number(data[i].price)
     }
  
@@ -130,12 +137,17 @@ export default function calCulateAmount(data)
         pricedetails.discount=pricedetails.discount+(pricedetails.total / 100)*5
         pricedetails.payable=pricedetails.total-pricedetails.discount
     }
-    console.log(sprays)
     if(sprays.includes('PF1' && 'PF3'))
     {
         pricedetails.discount=pricedetails.discount+10
         pricedetails.payable=pricedetails.total-pricedetails.discount
     }
+    if(sprays.includes('PF4' && 'PF6'))
+        {
+
+            pricedetails.discount=(pricedetails.total / 100)*25
+            pricedetails.payable=pricedetails.total-pricedetails.discount
+        }
     return pricedetails
 }
 

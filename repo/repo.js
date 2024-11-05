@@ -112,7 +112,7 @@ export const  getOrders=async(req,res)=>
         const data=await cartModel.find({userid:id})
         .populate('itemid','name image price code offers')
 
-        const pricedetails=await calCulateAmount(data)
+        const pricedetails=await calCulateAmount(data,id)
 
         res.status(200).json({data,pricedetails})
     }
