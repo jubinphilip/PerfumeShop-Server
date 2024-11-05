@@ -35,6 +35,40 @@ export default function calCulateAmount(data)
                 pricedetails.payable=data[i].price
             }
         }
+        else if(data[i].itemid.code=='PF2')
+        {
+            if(data[i].count>3)
+                {
+                    const price=75*data[i].count
+                    console.log(price)
+                    pricedetails.payable=price
+                }
+                else
+                {
+                    pricedetails.payable=data[i].price
+
+                }
+                pricedetails.discount=pricedetails.total-pricedetails.payable
+        }
+        else if(data[i].itemid.code=='PF5')
+        {
+            if(data[i].count>=2)
+            {
+                if(data[i].count>4)
+                {
+                    const discount=((data[i].itemid.price*data[i].count)/100)*20
+                    const price=data[i].price-discount
+                    pricedetails.payable=price
+                }
+                else
+                {
+                    const discount=(data[i].itemid.price*data[i].count)/10
+                    const price=data[i].price-discount
+                    pricedetails.payable=price
+                }
+            }
+            pricedetails.discount=pricedetails.total-pricedetails.payable
+        }
     }
 
     return pricedetails

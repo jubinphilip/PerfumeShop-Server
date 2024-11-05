@@ -21,5 +21,5 @@ const cartSchema=new mongoose.Schema({
     itemid:{type:mongoose.Schema.ObjectId,ref:'perfumes'},
     price:{type:String},
     count:{type:String}
-})
+},{timestamps:true})
 export const cartModel=mongoose.model('cart',cartSchema)
