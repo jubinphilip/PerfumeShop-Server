@@ -12,7 +12,8 @@ export default async function calCulateAmount(data,id)
 
   let loyaltyflag=false
   let cardWideflag=false
-
+let item=0
+let amount=0
   let anniversaryflag=false
 
     const length=data.length
@@ -22,8 +23,13 @@ export default async function calCulateAmount(data,id)
              if(bookingdata.length>=5)
             {
                 console.log(data[i].itemid.price)
+                const item=data[i].itemid.price
                 data[i].itemid.price= data[i].itemid.price-(data[i].itemid.price/100)*5
+                amount=item-data[i].itemid.price
+                amount=amount*data[i].count
+                console.log(amount)
                 console.log("Price reduced")
+                pricedetails.messages.push('5 bookings offer applied')
                 console.log(data[i].itemid.price)
                 loyaltyflag=true
             } 
@@ -75,6 +81,8 @@ export default async function calCulateAmount(data,id)
             {
                 pricedetailspf1.payable=Number(data[i].price)
             }
+
+            console.log(pricedetailspf1)
             //pricedetails.total=pricedetails.total+ pricedetailspf1.total
             pricedetails.payable=pricedetails.payable+pricedetailspf1.payable
             pricedetails.discount=pricedetails.discount+pricedetailspf1.discount
@@ -213,6 +221,11 @@ export default async function calCulateAmount(data,id)
     }
 
     console.log(pricedetails.messages)
+    if(amount>0)
+    {
+        pricedetails.discount=pricedetails.discount+amount
+        pricedetails.payable=pricedetails.payable-amount
+    }
     return pricedetails
 }
 

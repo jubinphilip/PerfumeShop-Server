@@ -4,7 +4,7 @@ export async function adduserController(req,res)
 {
     try
     {
-    addUser(req.body,res)
+        addUser(req.body,res)
     }
     catch(error)
     {
