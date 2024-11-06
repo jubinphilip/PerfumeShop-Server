@@ -135,7 +135,6 @@ let amount=0
             pricedetails.payable=pricedetails.payable+Number(pricedetailspf4.payable)
             pricedetails.discount=pricedetails.discount+pricedetailspf4.discount
         }   
-        
         if(data[i].itemid.code=='PF5')
         {
             const pricedetailspf5={
@@ -173,7 +172,6 @@ let amount=0
         }
         pricedetails.total=pricedetails.total+Number(data[i].price)
     }
- 
     if(data.length==5)
     {
         pricedetails.discount=(pricedetails.total / 100)*10
@@ -193,18 +191,17 @@ let amount=0
         cardWideflag=true
         pricedetails.messages.push('you are buying  products 500 rupees and offer applied')
     }
-    if(sprays.includes('PF1' && 'PF3'))
+    if (sprays.includes('PF1') && sprays.includes('PF3'))
     {
         pricedetails.discount=pricedetails.discount+10
         pricedetails.payable=pricedetails.total-pricedetails.discount
-        pricedetails.messages.push('Combo offers for perfumes applies')
+        pricedetails.messages.push('Combo offers for  perfumes 1 and 3 applied')
     }
-    if(sprays.includes('PF4' && 'PF6'))
+    if (sprays.includes('PF4') && sprays.includes('PF6'))
         {
-
             pricedetails.discount=pricedetails.discount+(pricedetails.total / 100)*25
             pricedetails.payable=pricedetails.total-pricedetails.discount
-            pricedetails.messages.push('Combo offers for perfumes  applies')
+            pricedetails.messages.push('Combo offers for perfumes 4 and 6  applied')
         }
 
     if(loyaltyflag ==true & cardWideflag==true)
